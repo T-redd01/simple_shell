@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Usage: <script name> [arg1 [arg2 [arg3 [ ...]
+# Attempts to compile c files passed as args
+# Errors are redirected to errfile.txt [errfile.txt is overwritten]
+#
+# Usage: <script name> NULL
+# Attempts to compile all c files [*.c]
+# Errors are redirected to errfile.txt [errfile.txt is overwritten]
+
+prog_name=hsh
+cflags="-Wall -Werror -Wextra -pedantic -std=gnu89"
+
+if [[ $# -gt 0 ]]
+then
+	gcc $cflags $@ -o $prog_name 2> errfile.txt
+else
+	gcc $cflags *.c -o $prog_name 2> errfile.txt
+fi
+
+if [[ $? -gt 0 ]]
+then
+	echo "Errors ecountered, errors redirected to errfile.txt"
+	echo ...
+	echo Errors:
+	echo -----------------------
+	cat errfile.txt
+	echo -----------------------
+else
+	echo "No errors encountered, run program $prog_name"
+fi
+
