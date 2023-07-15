@@ -3,7 +3,6 @@
 
 extern char **environ;
 
-/* strings */
 int key_cmp(char *set_key, const char *name) {
 	int i;
 
@@ -51,7 +50,6 @@ char *_strdup(char *src) {
 	return (new);
 }
 
-/* env */
 void init_environ(void) {
 	int i = 0;
 	char **copy = NULL;
@@ -71,72 +69,54 @@ void init_environ(void) {
 	environ = copy;
 }
 
-char *new_env_var(const char *key, const char *val) {
-	int i, j = 0;
-	char *var = NULL;
-
-	if (!key || !val)
-		return (NULL);
-
-	var = malloc((_strlen((char *)key) + _strlen((char *)val) + 2) * sizeof(char));
-	if (!var) {
-		perror("Error: new_env_var:");
-		return (NULL);
-	}
-
-	for (i = 0; key[i]; i++)
-		var[j++] = key[i];
-	var[j++] = '=';
-
-	for (i = 0; val[i]; i++)
-		var[j++] = val[i];
-	var[j] = '\0';
-	return (var);
-}
-
-int _setenv(const char *name, const char *value, int overwrite) {
-	int i;
+int _unsetenv(const char *name) {
+	int i, args, flag = 0;
 	char **new = NULL;
 
-	if (!name || !value)
-		return (1);
-
-	for (i = 0; environ[i]; i++) {
-		if ((key_cmp(environ[i], name))) {
-			if (overwrite) {
-				free(environ[i]);
-				environ[i] = new_env_var(name, value);
-				return (0);
-			}
-			return (1);
+	for (args = 0; environ[args]; args++) {
+		if ((key_cmp(environ[args], name))) {
+			flag = 1;
+			continue;
 		}
 	}
 
-	new = malloc((i + 2) * sizeof(char *));
-	if (!new) {
-		perror("Error: _setenv");
+	if (flag == 0) {
+		printf("Var not found\n");
 		return (1);
 	}
 
-	for (i = 0; environ[i]; i++)
-		new[i] = environ[i];
-	new[i++] = new_env_var(name, value);
-	new[i] = NULL;
+	new = malloc((args) * sizeof(char *));
+	if (!new) {
+		perror("Error: _unsetenv");
+		return (1);
+	}
+
+	args = 0;
+	for (i = 0; environ[i]; i++) {
+		if ((key_cmp(environ[i], name))) {
+			free(environ[i]);
+			continue;
+		}
+		new[args++] = environ[i];
+	}
+	new[args] = NULL;
 	free(environ);
 	environ = new;
 	return (0);
 }
 
 int main(int ac, char **av) {
-	int i;
+	int i = 0;
 
-	if (ac != 3) {
-		printf("Usage: %s NAME VALUE\n", av[0]);
+	if (ac != 2) {
+		printf("Usage: %s <var_name>\n", av[0]);
 		return (1);
 	}
-
 	init_environ();
-	i = _setenv(av[1], av[2], 1);
+	i = _unsetenv((const char *) av[1]);
+	if (i)
+		return (1);
+
 	while (environ[i]) {
 		printf("%s\n", environ[i]);
 		free(environ[i]);
@@ -145,4 +125,3 @@ int main(int ac, char **av) {
 	free(environ);
 	return (0);
 }
-
