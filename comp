@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Usage: <script name> [arg1 [arg2 [arg3 [ ...]
+# Usage: <script name> arg1 arg2 ...
 # Attempts to compile c files passed as args
 # Errors are redirected to errfile.txt [errfile.txt is overwritten]
 #
@@ -9,7 +9,7 @@
 # Errors are redirected to errfile.txt [errfile.txt is overwritten]
 
 prog_name=hsh
-cflags="-Wall -Werror -Wextra -pedantic -std=gnu89"
+cflags="-g -Wall -Werror -Wextra -pedantic -std=gnu89" # -g flag for gdb debugging
 
 if [[ $# -gt 0 ]]
 then
