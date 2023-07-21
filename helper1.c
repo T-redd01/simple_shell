@@ -1,5 +1,19 @@
 #include "shel.h"
 
+void print_matrix(char **matrix)
+{
+	int i;
+
+	if (!matrix)
+		return;
+
+	for (i = 0; matrix[i]; i++)
+	{
+		print_to_fd(1, matrix[i], NULL, NULL);
+		_putchar(1, '\n');
+	}
+}
+
 void free_matrix(char **matrix)
 {
 	int i;
@@ -10,26 +24,6 @@ void free_matrix(char **matrix)
 	for (i = 0; matrix[i]; i++)
 		free(matrix[i]);
 	free(matrix);
-}
-
-int is_delim(char *line, int idx)
-{
-	if (line[idx] == '\0')
-		return (1);
-	if (line[idx] == ' ')
-		return (1);
-	if (line[idx] == '\n')
-		return (1);
-	if (line[idx] == '#')
-		return (1);
-	if (line[idx] == ';')
-		return (1);
-	if (line[idx] == '&' && line[idx + 1] == '&')
-		return (1);
-	if (line[idx] == '|' && line[idx + 1] == '|')
-		return (1);
-	
-	return (0);
 }
 
 char *run_prmpt(size_t runs, char *name)

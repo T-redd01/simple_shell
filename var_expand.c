@@ -1,116 +1,154 @@
 #include "shel.h"
 
-size_t new_tok_len(char *word, char *ps, char *es, size_t *pl, size_t *el);
-
-char *new_tok_str(size_t len, size_t p_str, size_t e_str, size_t p, size_t e)
+char *env_var_val(char *tok_str, size_t *idx)
 {
-	size_t i, j = 0;
-	char *new_str = NULL, *val = NULL;
+	size_t len = 0, pos = *idx;
+	char *var= NULL, *val = NULL;
 
-	new_str = malloc((len + 1) * sizeof(char));
-	if (!new)
+	while (tok_str[*idx] && tok_str[*idx] != ' ')
 	{
-		perror("Error: new_node");
-		*flag = 0;
-		return (node);
+		len++;
+		*idx += 1;
 	}
 
-	for (i = 0; node->token[i]; i++)
+	var = malloc((len + 1) * sizeof(char));
+	if (!var)
 	{
-		if (node->token[i] == '$' && node->token[i + 1] == '$')
+		perror("Error: env_var_val");
+		return (NULL);
+	}
+
+	len = 0;
+	while (tok_str[pos] && tok_str[pos] != ' ')
+		var[len++] = tok_str[pos++];
+	var[len] = '\0';
+
+	val = _getenv(var);
+	free(var);
+	if (!val)
+		return (NULL);
+	return (val);
+}
+
+ssize_t get_new_len(char *old, size_t pl, size_t el)
+{
+	ssize_t len = 0;
+	size_t i = 0, flag = 0;
+	char *val = NULL;
+
+	for (i = 0; old[i]; i++)
+	{
+		if (old[i] == '$' && old[i + 1] == '$')
 		{
-			new_str[j] = '\0';
-			_strcat(new_str, p_str);
-			j += p;
+			flag = 1;
+			len += pl;
 			i++;
 		}
-		else if (node->tokenp[i] == '$' && node->token[i +1] == '?')
+		else if (old[i] == '$' && old[i + 1] == '?')
 		{
-			new_str[j] = '\0';
-			_strcat(new_str, e_str);
-			j += e;
+			flag = 1;
+			len += el;
 			i++;
 		}
-		else if (node->token[i] == '$' && node->token[i + 1] != '\0')
+		else if (old[i] == '$' && old[i + 1] != '\0')
 		{
+			flag = 1;
 			i++;
-			val = get_env_val(node->token, &i);
-			while (val && *val)
-			{
-				new_str[j++] = *val;
-				val++;
-			}
+			val = env_var_val(old, &i);
+			len += (_strlen(val));
 		}
 		else
-			new_str[j++] = node->token[i];
+			len++;
 		
-		if (node->token[i] == '\0')
-				i--;
+		if (old[i] == '\0')
+			i--;
 	}
-	new_str[i] = '\0';
-	return (new_str);
+
+	if (flag == 0)
+		return (0);
+
+	if (len == 0)
+		return (-1);
+	return (len);
 }
 
-
-toks *new_node(toks *node, size_t *flag)
+char *get_n_str(char *old, char *es, char *ps, size_t pl, size_t el, ssize_t l)
 {
-	size_t len = 0, p_len = 0, e_len = 0;
-	char *new_str = NULL, *p_str = NULL, *e_str = NULL;
-	toks *new_node = NULL;
+	size_t i, j = 0;
+	char *n_str = NULL, *val = NULL;
 
-	if (!node)
+	n_str = malloc((l + 1) * sizeof(char));
+	if (!n_str)
 		return (NULL);
 
-	p_len = getpid();
-	p_str = _itoa(p_len);
+	for (i = 0; old[i]; i++)
+	{
+		if (old[i] == '$' && old[i + 1] == '$')
+		{
+			n_str[j] = '\0';
+			_strcat(n_str, ps);
+			j += pl;
+			i++;
+		}
+		else if (old[i] == '$' && old[i + 1] == '?')
+		{
+			n_str[j] = '\0';
+			_strcat(n_str, es);
+			j += el;
+			i++;
+		}
+		else if (old[i] == '$' && old[i + 1] != '\0')
+		{
+			n_str[j] = '\0';
+			i++;
+			val = env_var_val(old, &i);
+			_strcat(n_str, val);
+			j += _strlen(val);
+		}
+		else
+			n_str[j++] = old[i];
 
-	e_len = errno;
-	e_str = _itoa(e_len);
-	len = new_tok_len(node->token, p_str, e_str, &p_len, &e_len);
+		if (old[i] == '\0')
+			i--;
+	}
+	n_str[j] = '\0';
+	return (n_str);
+}
+
+char *exp_str(char *old_str/*, int *flag*/)
+{
+	ssize_t len = 0;
+	size_t pl = 0, el = 0;
+	char *n_str = NULL, *ps = NULL, *es = NULL;
+
+	pl = getpid();
+	ps = _itoa(pl);
+	pl = _strlen(ps);
+
+	el = errno;
+	es = _itoa(el);
+	el = _strlen(es);
+
+	len = get_new_len(old_str, pl, el);
 	if (len == 0)
 	{
-		*flag = 0;
-		return (node);
+		free(es);
+		free(ps);
+		/*flag = 0;*/
+		return (old_str);
 	}
-
-	new_str = new_tok_val(len, p_str, e_str, p_len, e_len);
-
-	new_node = malloc(sizeof(toks));
-	if (!new_node)
+	if (len == -1)
 	{
-		*flag = 0;
-		perror("Error: new_node");
-		return (node);
+		free(es);
+		free(ps);
+		free(old_str);
+		return (NULL);
 	}
-	new_node->token = new_str;
-	new_node->n = NULL;
-	*flag = 1;
-	return (new_node);
+
+	n_str = get_n_str(old_str, es, ps, pl, el, len);
+	free(old_str);
+	free(es);
+	free(ps);
+	return (n_str);
 }
 
-void exp_toks(toks **h)
-{
-	size_t len = 0, flag = 0;
-	toks *head = NULL, *node = NULL, *tmp = NULL;
-
-	if (!(*h))
-		return;
-
-	while (*h)
-	{
-		tmp = (*h)->n;
-		node = new_node(tmp, &flag);
-		if (node)
-		{
-			len++;
-			append_toks_node(&h, node);
-		}
-
-		if (flag)
-			free((*h));
-		*h = tmp;
-	}
-	*h = head;
-
-	m.cmd_vect = create_arg_vect(*h, len);
-}

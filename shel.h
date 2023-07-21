@@ -1,6 +1,4 @@
 #ifndef SHEL_H
-#define SHEL_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -33,6 +31,8 @@ typedef struct cmd_tok_list
 typedef struct shell_cache
 {
 	char **env;
+	char *full_cmd;
+	char *inp;
 	cmds *cmd_buff;
 	char *prmpt;
 } cache;
@@ -56,11 +56,13 @@ int _strcpy(char *dest, char *src);
 
 /* string-utils2.c */
 char *_itoa(size_t num);
+int key_cmp(char *set_key, char *name);
 
 /* helper1.c */
+void print_matrix(char **matrix);
 void free_matrix(char **matrix);
 void print_matrix(char **matrix);
-int is_delim(char *line, int idx);
+int is_delim(char *line, size_t idx);
 char *run_prmpt(size_t runs, char *name);
 
 
@@ -73,10 +75,27 @@ void sighandler(int sig);
 
 /* parser.c */
 cmds *parser(char *line);
-int is_cmd_sep(char *line, int idx);
+int is_cmd_sep(char *line, size_t idx);
 
 /* command_runner.c */
+char **cmd_vect(toks *h, int args);
 int eval_loop(cache m);
+char **exp_toks(toks *h);
+
+/* var_expand.c */
+char *env_var_val(char *tok_str, size_t *idx);
+ssize_t get_new_len(char *old, size_t pl, size_t el);
+char *get_n_str(char *old, char *es, char *ps, size_t pl, size_t el, ssize_t l);
+char *exp_str(char *old_str/*, int *flag*/);
+
+/* builtins.c */
+int find_builtin(cache m, char **vect);
+
+/* find_binary.c */
+void find_bin(cache m, char **vect);
+
+/* execute_cmd.c */
+void cmd_executer(cache m, char *bin_name, char **vect);
 
 /* tok_list.c */
 toks *create_toks_node(char *line, int pos, int len);
@@ -92,8 +111,7 @@ void free_cmds_list(cmds **h);
 
 /* shell_environment.c */
 char **init_env(void);
-
-
+char *_getenv(char *name);
 
 #endif
 

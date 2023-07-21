@@ -21,32 +21,30 @@ ssize_t read_inp(char **input)
 	return (rline);
 }
 
-void repl_loop(__attribute__((unused)) cache m, char *name)
+void repl_loop(__attribute__((unused)) cache m, __attribute__((unused))char *name)
 {
 	ssize_t g = 0;
 	size_t runs = 0;
-	char *inp = NULL;
 
 	signal(SIGINT, &sighandler);
 	while (1) {
 		runs++;
-		g = read_inp(&inp);
+		g = read_inp(&(m.inp));
 		if (g == -1) {
 			if (isatty(STDIN_FILENO))
 				_putchar(1, '\n');
 			free_matrix(m.env);
-			exit(errno);
+			exit(0);
 		}
 
-		if (g == 1 && *inp == '\n') {
-			free(inp);
+		if (g == 1 && *(m.inp) == '\n') {
+			free(m.inp);
 			continue;
 		}
-		m.cmd_buff = parser(inp);
-		free(inp);
 		m.prmpt = run_prmpt(runs, name);
-		eval_loop(m);
-		free_cmds_list(&(m.cmd_buff));
+		parser(m.inp);
+		free(m.inp);
+		free(m.prmpt);
 	}
 }
 

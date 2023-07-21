@@ -60,7 +60,10 @@ int print_toks_list(toks *h)
 	while (h)
 	{
 		nodes++;
-		print_to_fd(1, h->token, NULL, NULL);
+		if (h->token)
+			print_to_fd(1, h->token, NULL, NULL);
+		else
+			print_to_fd(1, "is nil", NULL, NULL);
 		_putchar(1, '\n');
 		h = h->n;
 	}
@@ -77,7 +80,8 @@ void free_toks_list(toks **h)
 	while (*h)
 	{
 		tmp = (*h)->n;
-		free(((*h)->token));
+		if (((*h)->token))
+			free(((*h)->token));
 		free((*h));
 		(*h) = tmp;
 	}

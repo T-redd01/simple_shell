@@ -22,6 +22,9 @@ ssize_t _getline(char **buf, int fd) {
 		readbuf[r - 1] = '\0';
 		bytes += r;
 		*buf = _realloc(*buf, (bytes + 1));
+		if (!(*buf))
+			return (0);
+
 		_strcat(*buf, readbuf);
 	}
 	return (bytes);

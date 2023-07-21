@@ -28,3 +28,19 @@ char *_itoa(size_t num) {
 	return (str);
 }
 
+int key_cmp(char *set_key, char *name)
+{
+	int i;
+
+	if (!set_key || !name)
+		return (-1);
+
+	for (i = 0; name[i] && (set_key[i] != '='); i++)
+		if (name[i] != set_key[i])
+			return (0);
+
+	if (set_key[i] == '=' && name[i] == '\0')
+		return (1);
+	return (0);
+}
+

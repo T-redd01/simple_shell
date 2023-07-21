@@ -1,11 +1,31 @@
 #include "shel.h"
 
-int is_cmd_sep(char *line, int idx)
+int is_delim(char *line, size_t idx)
+{
+    if (line[idx] == '\0')
+        return (1);
+    if (line[idx] == ' ')
+        return (1);
+    if (line[idx] == '\n')
+        return (1);
+    if (line[idx] == '#')
+        return (1);
+    if (line[idx] == ';')
+        return (1);
+    if (line[idx] == '&' && line[idx + 1] == '&')
+        return (1);
+    if (line[idx] == '|' && line[idx + 1] == '|')
+        return (1);
+    
+    return (0);
+}
+
+int is_cmd_sep(char *line, size_t idx)
 {
 	if (!line)
 		return (0);
 
-	if (line[idx] == '\0' || line[idx] == '#')
+	if (line[idx] == '\0')
 		return (1);
 	if (line[idx] == ';')
 		return (1);
@@ -17,42 +37,62 @@ int is_cmd_sep(char *line, int idx)
 	return (0);
 }
 
+char *make_tok_str(char *line, size_t *idx)
+{
+	size_t i = *idx, j = 0, len = 0;
+	char *str = NULL;
+
+	while (!(is_delim(line, *idx)))
+	{
+		len++; /* find len */
+		*idx += 1;
+	}
+
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
+	{
+		perror("Error: make_tok_str");
+		return (NULL);
+	}
+
+	while (!(is_delim(line, i)))
+		str[j++] = line[i++];
+	str[j] = '\0';
+	return (str);
+}
+
 cmds *parser(char *line)
 {
-	int i, pos, len;
-	toks *sub_h = NULL, *tok_node = NULL;
-	cmds *h = NULL, *cmd_node = NULL;
+	size_t i, args = 0;
+	char *word = NULL;
 
 	if (!line)
 		return (NULL);
 
 	for (i = 0; line[i]; i++)
 	{
-		if ((is_delim(line, i)) == 0)
+		
+		if (!(is_delim(line, i)))
 		{
-			pos = i;
-			len = 0;
-			while (line[i] && (is_delim(line, i)) == 0) {
-				i++;
-				len++;
-			}
-			tok_node = create_toks_node(line, pos, len);
-			append_toks_node(&sub_h, tok_node);
-		}
-
-		if ((is_cmd_sep(line, i)))
-		{
-			cmd_node = create_cmd_node(sub_h, line, &i);
-			append_cmd_node(&h, cmd_node);
-			sub_h = NULL;
+			word = make_tok_str(line, &i);
+			word = exp_str(word);
+			node = create_tok_node(word);
+			if (node)
+				args++;
+			append_tok_node(&h, node);
 		}
 
 		if (line[i] == '#')
 			break;
+		
+		if (is_cmd_sep(line, i))
+		{
+			printf("seperator: %c\n\n", line[i]);
+		}
 
 		if (line[i] == '\0')
 			i--;
 	}
-	return (h);
+	return (NULL);
 }
 
