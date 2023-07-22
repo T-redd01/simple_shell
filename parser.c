@@ -25,39 +25,39 @@ int is_cmd_sep(char *line, size_t *idx)
 	if (!line)
 		return (0);
 
-	if (line[*idx] == '\0')
+	if (line[*idx] == '\0' || line[*idx] == '#')
 		return (1);
 	if (line[*idx] == ';')
 		return (1);
 	if (line[*idx] == '&' && line[*idx + 1] == '&')
 	{
-		*idx += 1; /* increment for testing */
+		*idx += 1;
 		return (1);
 	}
 	if (line[*idx] == '|' && line[*idx + 1] == '|')
 	{
-		*idx += 1; /* same here */
+		*idx += 1;
 		return (1);
 	}
 
 	return (0);
 }
 
-char **create_cmd_vect(toks *h, size_t count)
+void create_cmd_vect(cache m, toks *h, size_t count)
 {
 	size_t i = 0;
 	char **vect = NULL;
 	toks *tmp;
 
 	if (!h)
-		return (NULL);
+		return;
 
 	vect = malloc((count + 1) * sizeof(char *));
 	if (!vect)
 	{
 		perror("Failed to allocate memory");
 		free_toks_list(&h);
-		return (NULL);
+		return;
 	}
 
 	while (h)
@@ -68,20 +68,24 @@ char **create_cmd_vect(toks *h, size_t count)
 		h = tmp;
 	}
 	vect[i] = NULL;
-	return (vect);
+
+	/* execute command */
+	if ((_builtin(m, vect)))
+		find_bin(m, vect);
+	free_matrix(vect);
 }
 
 
-cmds *parser(char *line)
+void parser(cache m, char *line)
 {
 	size_t i, args = 0;
-	char *token = NULL, **vect = NULL;
+	char *token = NULL;
 	toks *node, *h = NULL;
 
 	if (!line)
-		return (NULL);
+		return;
 
-	for (i = 0; line[i] && line[i] != '#'; i++)
+	for (i = 0; line[i]; i++)
 	{
 		
 		if (!(is_delim(line, i)))
@@ -97,18 +101,18 @@ cmds *parser(char *line)
 
 		if (is_cmd_sep(line, &i))
 		{
-			vect = create_cmd_vect(h, args);
-			/* is command builtin / in path / non existant */
+			create_cmd_vect(m, h, args);
 			/* if ran: should i chain next command */
 			h = NULL;
 			args = 0;
 		}
 
-		if (line[i] == '\0' || line[i] == '#')
+		if (line[i] == '#')
+			break;
+
+		if (line[i] == '\0')
 			i--;
 	}
-	print_toks_list(h);
 	free_toks_list(&h);
-	return (NULL);
 }
 

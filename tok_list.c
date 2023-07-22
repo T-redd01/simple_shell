@@ -1,6 +1,5 @@
 #include "shel.h"
 
-/* for tok list */
 toks *create_tok_node(char *word)
 {
 	toks *new = NULL;

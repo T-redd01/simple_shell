@@ -47,3 +47,11 @@ void _putchar(int fd, char c)
 {
 	write(fd, &c, 1);
 }
+
+void _puts(char *s, int fd)
+{
+	if (!s)
+		return;
+
+	write(fd, s, (_strlen(s)));
+}

@@ -34,6 +34,7 @@ void repl_loop(__attribute__((unused)) cache m, __attribute__((unused))char *nam
 			if (isatty(STDIN_FILENO))
 				_putchar(1, '\n');
 			free_matrix(m.env);
+			free_alias_list(m.als);
 			exit(0);
 		}
 
@@ -42,7 +43,7 @@ void repl_loop(__attribute__((unused)) cache m, __attribute__((unused))char *nam
 			continue;
 		}
 		m.prmpt = run_prmpt(runs, name);
-		parser(m.inp);
+		parser(m, m.inp);
 		free(m.inp);
 		free(m.prmpt);
 	}

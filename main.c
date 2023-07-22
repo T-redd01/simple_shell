@@ -1,7 +1,7 @@
 #include "shel.h"
 
 int main(__attribute__((unused))int ac, __attribute__((unused))char **av) {
-	cache m = {NULL, NULL, NULL, NULL, NULL};
+	cache m = {NULL, NULL, NULL, NULL};
 
 	if (ac > 2) {
 		print_to_fd(2, "Usage: ", av[0], " file_name\n");

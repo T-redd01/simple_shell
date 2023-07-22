@@ -4,11 +4,12 @@ void free_proc_mem(cache m, char **vect)
 {
 	free(m.prmpt);
 	free_matrix(m.env);
-	free_cmds_list(&(m.cmd_buff));
-	free(vect);
+	free(m.inp);
+	free_alias_list(m.als);
+	free_matrix(vect);
 }
 
-void cmd_executer(cache m, char *bin_name, char **vect)
+void exec_cmd(cache m, char *bin_name, char **vect)
 {
 	pid_t cp;
 	int exec, status;

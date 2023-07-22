@@ -1,4 +1,6 @@
 #ifndef SHEL_H
+#define SHEL_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -21,21 +23,25 @@ typedef struct token_list
 	struct token_list *n;
 } toks;
 
-typedef struct cmd_tok_list
-{
-	toks *token_l;
-	int sym;
-	struct cmd_tok_list *n;
-} cmds;
+typedef struct alias_list {
+	char *name;
+	char *val;
+	struct alias_list *n_al;
+} al_list;
 
 typedef struct shell_cache
 {
 	char **env;
-	char *full_cmd;
 	char *inp;
-	cmds *cmd_buff;
 	char *prmpt;
+	al_list *als;
 } cache;
+
+typedef struct builtins_s
+{
+	char *builtin_name;
+	void (*fp) (cache m, char **vect);
+} builtin_t;
 
 /****************************************** CORE ******************************************/
 /* repl_loop.c */
@@ -44,13 +50,9 @@ ssize_t read_inp(char **input);
 void sighandler(int sig);
 
 /* parser.c */
-cmds *parser(char *line);
+void parser(cache m, char *line);
 int is_cmd_sep(char *line, size_t *idx);
-
-/* command_runner.c */
-char **cmd_vect(toks *h, int args);
-int eval_loop(cache m);
-char **exp_toks(toks *h);
+int is_delim(char *line, size_t idx);
 
 /* var_expand.c */
 char *get_env_val(char *line, size_t *idx);
@@ -59,13 +61,13 @@ char *exp_word(char *line, size_t *i, char * ps, size_t pl, char *es, size_t el,
 char *extract_word(char *line, size_t *idx);
 
 /* builtins.c */
-int find_builtin(cache m, char **vect);
+int _builtin(cache m, char **vect);
 
 /* find_binary.c */
 void find_bin(cache m, char **vect);
 
 /* execute_cmd.c */
-void cmd_executer(cache m, char *bin_name, char **vect);
+void exec_cmd(cache m, char *bin_name, char **vect);
 
 /* tok_list.c */
 toks *create_tok_node(char *word);
@@ -73,11 +75,18 @@ void append_tok_node(toks **h, toks *node);
 int print_toks_list(toks *h);
 void free_toks_list(toks **h);
 
-/* cmds_list.c */
-cmds *create_cmd_node(toks *sub_h, char *line, int *i);
-void append_cmd_node(cmds **h, cmds *node);
-int print_cmds_list(cmds *h);
-void free_cmds_list(cmds **h);
+/* _alias.c */
+void _alias(cache m, char **vect);
+al_list *change_alias_val(al_list *h, char *pair);
+char *extract_alias_val(char *pair);
+char *extract_alias_name(char *pair);
+
+/* alias_linked_list.c */
+al_list *creat_alias_node(char *key_val);
+void prepend_alias_node(al_list **h, al_list *node);
+void print_alias_node(al_list *h, char *key);
+void print_alias_list(al_list *h);
+void free_alias_list(al_list *h);
 
 /************************************* UTILITIES ***************************************/
 /* shell_environment.c */
@@ -88,6 +97,7 @@ char *_getenv(char *name);
 int print_to_fd(int fd, char *s1, char *s2, char *s3);
 int load_buff(int fd, char *buff, char *s, size_t *idx);
 void _putchar(int fd, char c);
+void _puts(char *s, int fd);
 
 /* read_fd */
 char *_realloc(char *old, size_t new_size);
@@ -98,6 +108,7 @@ size_t _strlen(char *s);
 char *_strdup(char *src);
 char *_strcat(char *dest, char *src);
 int _strcpy(char *dest, char *src);
+int my_strcmp(char *s1, char *s2);
 
 /* string-utils2.c */
 char *_itoa(size_t num);
@@ -106,10 +117,7 @@ int key_cmp(char *set_key, char *name);
 /* helper1.c */
 void print_matrix(char **matrix);
 void free_matrix(char **matrix);
-void print_matrix(char **matrix);
-int is_delim(char *line, size_t idx);
 char *run_prmpt(size_t runs, char *name);
-
 
 #endif
 
