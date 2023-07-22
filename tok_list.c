@@ -1,13 +1,9 @@
 #include "shel.h"
 
 /* for tok list */
-toks *create_toks_node(char *line, int pos, int len)
+toks *create_tok_node(char *word)
 {
-	int i;
 	toks *new = NULL;
-
-	if (!line)
-		return (NULL);
 
 	new = malloc(sizeof(toks));
 	if (!new)
@@ -16,23 +12,13 @@ toks *create_toks_node(char *line, int pos, int len)
 		return (NULL);
 	}
 
-	new->token = malloc((len + 1) * sizeof(char));
-	if (!(new->token))
-	{
-		perror("Error: create_tok_node");
-		free(new);
-		return (NULL);
-	}
-
+	new->token = word;
 	new->n = NULL;
-	for (i = 0; (is_delim(line, pos)) == 0; i++, pos++)
-		new->token[i] = line[pos];
-	new->token[i] = '\0';
 	return (new);
 }
 
 
-void append_toks_node(toks **h, toks *node)
+void append_tok_node(toks **h, toks *node)
 {
 	toks *tmp = *h;
 

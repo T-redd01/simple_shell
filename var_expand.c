@@ -1,154 +1,115 @@
 #include "shel.h"
 
-char *env_var_val(char *tok_str, size_t *idx)
-{
-	size_t len = 0, pos = *idx;
-	char *var= NULL, *val = NULL;
+char *get_env_val(char *line, size_t *idx) {
+	size_t pos, len = 0;
+	char *key = NULL, *val = NULL;
 
-	while (tok_str[*idx] && tok_str[*idx] != ' ')
-	{
+	*idx += 1;
+	pos = *idx;
+	while (!(is_delim(line, *idx))) {
 		len++;
 		*idx += 1;
 	}
+	*idx -= 1;
 
-	var = malloc((len + 1) * sizeof(char));
-	if (!var)
-	{
-		perror("Error: env_var_val");
+	key = malloc((len + 1) * sizeof(char));
+	if (!key) {
+		perror("Failed to allocate memory");
 		return (NULL);
 	}
 
 	len = 0;
-	while (tok_str[pos] && tok_str[pos] != ' ')
-		var[len++] = tok_str[pos++];
-	var[len] = '\0';
+	while (!(is_delim(line, pos)))
+		key[len++] = line[pos++];
+	key[len] = '\0';
 
-	val = _getenv(var);
-	free(var);
-	if (!val)
-		return (NULL);
+	val = _getenv(key);
+	free(key);
 	return (val);
 }
 
-ssize_t get_new_len(char *old, size_t pl, size_t el)
-{
-	ssize_t len = 0;
-	size_t i = 0, flag = 0;
-	char *val = NULL;
+size_t word_full_len(char *line, size_t idx, size_t pl, size_t el) {
+	size_t len = 0;
 
-	for (i = 0; old[i]; i++)
-	{
-		if (old[i] == '$' && old[i + 1] == '$')
-		{
-			flag = 1;
-			len += pl;
-			i++;
-		}
-		else if (old[i] == '$' && old[i + 1] == '?')
-		{
-			flag = 1;
+	for (; !(is_delim(line, idx)); idx++) {
+		if (line[idx] == '$' && line[idx + 1] == '?') {
+			idx++;
 			len += el;
-			i++;
-		}
-		else if (old[i] == '$' && old[i + 1] != '\0')
-		{
-			flag = 1;
-			i++;
-			val = env_var_val(old, &i);
-			len += (_strlen(val));
-		}
-		else
+		} else if (line[idx] == '$' && line[idx + 1] == '$') {
+			idx++;
+			len += pl;
+		} else if (line[idx] == '$' && !(is_delim(line, idx + 1))) {
+			len += _strlen((get_env_val(line, &idx)));
+		} else {
 			len++;
-		
-		if (old[i] == '\0')
-			i--;
+		}
+
+		if (line[idx] == '\0')
+			idx--;
 	}
-
-	if (flag == 0)
-		return (0);
-
-	if (len == 0)
-		return (-1);
 	return (len);
 }
 
-char *get_n_str(char *old, char *es, char *ps, size_t pl, size_t el, ssize_t l)
-{
-	size_t i, j = 0;
-	char *n_str = NULL, *val = NULL;
+char *exp_word(char *line, size_t *i, char * ps, size_t pl, char *es, size_t el, size_t l) {
+	size_t j = 0;
+	char *token = NULL, *env_val;
 
-	n_str = malloc((l + 1) * sizeof(char));
-	if (!n_str)
+	token = malloc((l + 1) * sizeof(char));
+	if (!token) {
+		perror("Failed to allocate memory");
 		return (NULL);
-
-	for (i = 0; old[i]; i++)
-	{
-		if (old[i] == '$' && old[i + 1] == '$')
-		{
-			n_str[j] = '\0';
-			_strcat(n_str, ps);
-			j += pl;
-			i++;
-		}
-		else if (old[i] == '$' && old[i + 1] == '?')
-		{
-			n_str[j] = '\0';
-			_strcat(n_str, es);
-			j += el;
-			i++;
-		}
-		else if (old[i] == '$' && old[i + 1] != '\0')
-		{
-			n_str[j] = '\0';
-			i++;
-			val = env_var_val(old, &i);
-			_strcat(n_str, val);
-			j += _strlen(val);
-		}
-		else
-			n_str[j++] = old[i];
-
-		if (old[i] == '\0')
-			i--;
 	}
-	n_str[j] = '\0';
-	return (n_str);
+
+	for (; !(is_delim(line, *i)); *i += 1) {
+		if (line[*i] == '$' && line[*i + 1] == '$') {
+			token[j] = '\0';
+			_strcat(token, ps);
+			j += pl;
+			*i += 1;
+		} else if (line[*i] == '$' && line[*i + 1] == '?') {
+			token[j] = '\0';
+			_strcat(token, es);
+			j += el;
+			*i += 1;
+		} else if (line[*i] == '$' && !(is_delim(line, *i + 1))) {
+			token[j] = '\0';
+			env_val = get_env_val(line, i);
+			_strcat(token, env_val);
+			j += (_strlen(env_val));
+		} else {
+			token[j++] = line[*i];
+		}
+
+		if (line[*i] == '\0')
+			*i -= 1;
+	}
+	token[j] = '\0';
+	return (token);
 }
 
-char *exp_str(char *old_str/*, int *flag*/)
-{
-	ssize_t len = 0;
-	size_t pl = 0, el = 0;
-	char *n_str = NULL, *ps = NULL, *es = NULL;
+char *extract_word(char *line, size_t *idx) {
+	size_t len, pl, el;
+	char *str = NULL, *ps, *es;
 
-	pl = getpid();
+	pl = getpid(); /* turn proc_id into string */
 	ps = _itoa(pl);
-	pl = _strlen(ps);
+	pl = _strlen(ps); /* save len of proc_id string */
 
-	el = errno;
-	es = _itoa(el);
-	el = _strlen(es);
+	el = errno; /* turn errno into string */
+	es = _itoa(errno);
+	el = _strlen(es); /* save len of errno string */
 
-	len = get_new_len(old_str, pl, el);
-	if (len == 0)
-	{
-		free(es);
+	len = word_full_len(line, *idx, pl, el);
+	if (len == 0) {
+		while (!(is_delim(line, *idx)))
+			*idx += 1;
 		free(ps);
-		/*flag = 0;*/
-		return (old_str);
-	}
-	if (len == -1)
-	{
 		free(es);
-		free(ps);
-		free(old_str);
 		return (NULL);
 	}
-
-	n_str = get_n_str(old_str, es, ps, pl, el, len);
-	free(old_str);
+	str = exp_word(line, idx, ps, pl, es, el, len);
 	free(es);
 	free(ps);
-	return (n_str);
+	return (str);
 }
 
