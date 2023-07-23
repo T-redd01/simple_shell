@@ -1,6 +1,6 @@
 #include "shel.h"
 
-char *get_env_val(char *line, size_t *idx)
+char *get_env_val(char **env, char *line, size_t *idx)
 {
 	size_t pos, len = 0;
 	char *key = NULL, *val = NULL;
@@ -26,12 +26,12 @@ char *get_env_val(char *line, size_t *idx)
 		key[len++] = line[pos++];
 	key[len] = '\0';
 
-	val = _getenv(key);
+	val = _getenv(env, key);
 	free(key);
 	return (val);
 }
 
-size_t word_full_len(char *line, size_t idx, size_t pl, size_t el)
+size_t word_full_len(char **env, char *line, size_t idx, size_t pl, size_t el)
 {
 	size_t len = 0;
 
@@ -48,7 +48,7 @@ size_t word_full_len(char *line, size_t idx, size_t pl, size_t el)
 		}
 		else if (line[idx] == '$' && !(is_delim(line, idx + 1)))
 		{
-			len += _strlen((get_env_val(line, &idx)));
+			len += _strlen((get_env_val(env, line, &idx)));
 		}
 		else
 			len++;
@@ -59,7 +59,7 @@ size_t word_full_len(char *line, size_t idx, size_t pl, size_t el)
 	return (len);
 }
 
-char *exp_word(char *line, size_t *i, char * ps, size_t pl, char *es, size_t el, size_t l)
+char *exp_word(char **env, char *line, size_t *i, char * ps, size_t pl, char *es, size_t el, size_t l)
 {
 	size_t j = 0;
 	char *token = NULL, *env_val;
@@ -90,7 +90,7 @@ char *exp_word(char *line, size_t *i, char * ps, size_t pl, char *es, size_t el,
 		else if (line[*i] == '$' && !(is_delim(line, *i + 1)))
 		{
 			token[j] = '\0';
-			env_val = get_env_val(line, i);
+			env_val = get_env_val(env, line, i);
 			_strcat(token, env_val);
 			j += (_strlen(env_val));
 		}
@@ -104,7 +104,7 @@ char *exp_word(char *line, size_t *i, char * ps, size_t pl, char *es, size_t el,
 	return (token);
 }
 
-char *extract_word(char *line, size_t *idx)
+char *extract_word(char **env, char *line, size_t *idx)
 {
 	size_t len, pl, el;
 	char *str = NULL, *ps, *es;
@@ -117,7 +117,7 @@ char *extract_word(char *line, size_t *idx)
 	es = _itoa(errno);
 	el = _strlen(es); /* save len of errno string */
 
-	len = word_full_len(line, *idx, pl, el);
+	len = word_full_len(env, line, *idx, pl, el);
 	if (len == 0)
 	{
 		while (!(is_delim(line, *idx)))
@@ -126,7 +126,7 @@ char *extract_word(char *line, size_t *idx)
 		free(es);
 		return (NULL);
 	}
-	str = exp_word(line, idx, ps, pl, es, el, len);
+	str = exp_word(env, line, idx, ps, pl, es, el, len);
 	free(es);
 	free(ps);
 	return (str);

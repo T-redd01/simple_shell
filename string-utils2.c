@@ -35,7 +35,7 @@ int key_cmp(char *set_key, char *name)
 	if (!set_key || !name)
 		return (-1);
 
-	for (i = 0; name[i] && (set_key[i] != '='); i++)
+	for (i = 0; name[i] && (set_key[i] && set_key[i] != '='); i++)
 		if (name[i] != set_key[i])
 			return (0);
 

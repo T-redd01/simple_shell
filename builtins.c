@@ -1,14 +1,21 @@
 #include "shel.h"
 
-int _builtin(__attribute__((unused))cache m, __attribute__((unused))char **vect)
+void print_env(cache *m, __attribute__((unused)) char **vect)
+{
+	errno = 0;
+	print_matrix(m->env);
+}
+
+int _builtin(__attribute__((unused))cache *m, __attribute__((unused))char **vect)
 {
 	int i = 0;
 	builtin_t arr[] = {
-		/*{"exit", _exit},*/
+		{"exit", s_exit},
 		{"alias", _alias},
-		/*{"unsetenv", call_unsetenv},
+		{"unsetenv", call_unsetenv},
 		{"setenv", call_setenv},
-		{"cd", change_WD},*/
+		{"env", print_env},
+		{"cd", change_WD},
 		{NULL, NULL},
 	};
 
@@ -20,7 +27,6 @@ int _builtin(__attribute__((unused))cache m, __attribute__((unused))char **vect)
 		}
 		i++;
 	}
-	_putchar(1, '\n');
 	return (1);
 }
 

@@ -21,7 +21,7 @@ ssize_t read_inp(char **input)
 	return (rline);
 }
 
-void repl_loop(__attribute__((unused)) cache m, __attribute__((unused))char *name)
+void repl_loop(__attribute__((unused)) cache *m, __attribute__((unused))char *name)
 {
 	ssize_t g = 0;
 	size_t runs = 0;
@@ -29,23 +29,23 @@ void repl_loop(__attribute__((unused)) cache m, __attribute__((unused))char *nam
 	signal(SIGINT, &sighandler);
 	while (1) {
 		runs++;
-		g = read_inp(&(m.inp));
+		g = read_inp(&(m->inp));
 		if (g == -1) {
 			if (isatty(STDIN_FILENO))
 				_putchar(1, '\n');
-			free_matrix(m.env);
-			free_alias_list(m.als);
+			free_matrix(m->env);
+			free_alias_list(m->als);
 			exit(0);
 		}
 
-		if (g == 1 && *(m.inp) == '\n') {
-			free(m.inp);
+		if (g == 1 && *(m->inp) == '\n') {
+			free(m->inp);
 			continue;
 		}
-		m.prmpt = run_prmpt(runs, name);
-		parser(m, m.inp);
-		free(m.inp);
-		free(m.prmpt);
+		m->prmpt = run_prmpt(runs, name);
+		parser(m, m->inp);
+		free(m->inp);
+		free(m->prmpt);
 	}
 }
 

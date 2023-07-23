@@ -27,6 +27,8 @@ int is_cmd_sep(char *line, size_t *idx)
 
 	if (line[*idx] == '\0' || line[*idx] == '#')
 		return (1);
+	if (line[*idx + 1] == '\0')
+		return (1);
 	if (line[*idx] == ';')
 		return (1);
 	if (line[*idx] == '&' && line[*idx + 1] == '&')
@@ -43,7 +45,24 @@ int is_cmd_sep(char *line, size_t *idx)
 	return (0);
 }
 
-void create_cmd_vect(cache m, toks *h, size_t count)
+void substitute_alias(al_list *h, toks *node)
+{
+	if (!h)
+		return;
+
+	while (h)
+	{
+		if ((my_strcmp(h->name, node->token)))
+		{
+			free(node->token);
+			node->token = _strdup(h->val);
+			return;
+		}
+		h = h->n_al;
+	}
+}
+
+void create_cmd_vect(cache *m, toks *h, size_t count)
 {
 	size_t i = 0;
 	char **vect = NULL;
@@ -60,6 +79,7 @@ void create_cmd_vect(cache m, toks *h, size_t count)
 		return;
 	}
 
+	substitute_alias(m->als, h);
 	while (h)
 	{
 		tmp = h->n;
@@ -76,7 +96,7 @@ void create_cmd_vect(cache m, toks *h, size_t count)
 }
 
 
-void parser(cache m, char *line)
+void parser(cache *m, char *line)
 {
 	size_t i, args = 0;
 	char *token = NULL;
@@ -90,7 +110,7 @@ void parser(cache m, char *line)
 		
 		if (!(is_delim(line, i)))
 		{
-			token = extract_word(line, &i);
+			token = extract_word(m->env, line, &i);
 			if (token)
 			{
 				node = create_tok_node(token);

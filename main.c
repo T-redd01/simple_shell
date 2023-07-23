@@ -13,7 +13,7 @@ int main(__attribute__((unused))int ac, __attribute__((unused))char **av) {
 	}
 
 	m.env = init_env();
-	repl_loop(m, av[0]);
+	repl_loop(&m, av[0]);
 	return (EXIT_SUCCESS);
 }
 

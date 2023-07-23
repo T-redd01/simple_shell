@@ -23,7 +23,7 @@ char **init_env(void)
 	return (copy);
 }
 
-char *_getenv(char *name)
+char *_getenv(char **env, char *name)
 {
 	int i;
 	char *val = NULL;
@@ -31,9 +31,9 @@ char *_getenv(char *name)
 	if (!name)
 		return (NULL);
 
-	for (i = 0; environ[i]; i++) {
-		if ((key_cmp(environ[i], name))) {
-			val = environ[i];
+	for (i = 0; env[i]; i++) {
+		if ((key_cmp(env[i], name))) {
+			val = env[i];
 			while (*val != '=')
 				val++;
 			return (++val);

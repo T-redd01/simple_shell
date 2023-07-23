@@ -30,9 +30,9 @@ char *create_bin_path(char *path, size_t *idx, char *name) {
 	return (full_path);
 }
 
-void find_bin(cache m, char **vect) {
+void find_bin(cache *m, char **vect) {
 	size_t i;
-	char *path = _getenv("PATH"), *fp;
+	char *path = _getenv(m->env, "PATH"), *fp;
 	struct stat info;
 
 	if ((stat(vect[0], &info)) == 0) {
@@ -41,7 +41,7 @@ void find_bin(cache m, char **vect) {
 	}
 
 	if (!path) {
-		find_bin_err(m.prmpt, vect[0]);
+		find_bin_err(m->prmpt, vect[0]);
 		return;
 	}
 
@@ -59,5 +59,5 @@ void find_bin(cache m, char **vect) {
 		if (path[i] == '\0')
 			i--;
 	}
-	find_bin_err(m.prmpt, vect[0]);
+	find_bin_err(m->prmpt, vect[0]);
 }
