@@ -8,22 +8,21 @@
  */
 int is_delim(char *line, size_t idx)
 {
-    if (line[idx] == '\0')
-        return (1);
-    if (line[idx] == ' ')
-        return (1);
-    if (line[idx] == '\n')
-        return (1);
-    if (line[idx] == '#')
-        return (1);
-    if (line[idx] == ';')
-        return (1);
-    if (line[idx] == '&' && line[idx + 1] == '&')
-        return (1);
-    if (line[idx] == '|' && line[idx + 1] == '|')
-        return (1);
-    
-    return (0);
+	if (line[idx] == '\0')
+		return (1);
+	if (line[idx] == ' ')
+		return (1);
+	if (line[idx] == '\n')
+		return (1);
+	if (line[idx] == '#')
+		return (1);
+	if (line[idx] == ';')
+		return (1);
+	if (line[idx] == '&' && line[idx + 1] == '&')
+		return (1);
+	if (line[idx] == '|' && line[idx + 1] == '|')
+		return (1);
+	return (0);
 }
 
 /**
@@ -134,7 +133,6 @@ void parser(cache *m, char *line)
 
 	for (i = 0; line[i]; i++)
 	{
-		
 		if (!(is_delim(line, i)))
 		{
 			token = extract_word(m->env, line, &i);

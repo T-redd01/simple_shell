@@ -23,7 +23,7 @@ void print_al_list(al_list *h)
 void free_alias_list(al_list *h)
 {
 	al_list *curr, *next;
-	
+
 	curr = h;
 	while (curr)
 	{

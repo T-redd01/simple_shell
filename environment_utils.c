@@ -16,7 +16,8 @@ char **init_env(void)
 		i++;
 
 	copy = malloc((i + 1) * sizeof(char *));
-	if (!copy) {
+	if (!copy)
+	{
 		perror("Error: init_env");
 		return (NULL);
 	}
@@ -41,8 +42,10 @@ char *_getenv(char **env, char *name)
 	if (!name)
 		return (NULL);
 
-	for (i = 0; env[i]; i++) {
-		if ((key_cmp(env[i], name))) {
+	for (i = 0; env[i]; i++)
+	{
+		if ((key_cmp(env[i], name)))
+		{
 			val = env[i];
 			while (*val != '=')
 				val++;

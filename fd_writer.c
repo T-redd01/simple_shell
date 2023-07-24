@@ -54,7 +54,8 @@ int print_to_fd(int fd, char *s1, char *s2, char *s3)
 	if (s3 && w == 0)
 		w = load_buff(fd, buff, s3, &bytes);
 
-	if (bytes && w == 0) {
+	if (bytes && w == 0)
+	{
 		w = write(fd, buff, bytes);
 		if (w == -1)
 			return (1);

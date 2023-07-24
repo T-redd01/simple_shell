@@ -51,7 +51,8 @@ size_t word_full_len(char **env, char *line, size_t idx, size_t pl, size_t el)
 {
 	size_t len = 0;
 
-	for (; !(is_delim(line, idx)); idx++) {
+	for (; !(is_delim(line, idx)); idx++)
+	{
 		if (line[idx] == '$' && line[idx + 1] == '?')
 		{
 			idx++;
@@ -86,7 +87,7 @@ size_t word_full_len(char **env, char *line, size_t idx, size_t pl, size_t el)
  * @el: errno len
  * @l: len to alloc
  */
-char *exp_word(char **env, char *line, size_t *i, char * ps, size_t pl,
+char *exp_word(char **env, char *line, size_t *i, char *ps, size_t pl,
 		char *es, size_t el, size_t l)
 {
 	size_t j = 0;

@@ -5,7 +5,8 @@
  * @prmpt: shell log
  * @num: arg passed as exit status
  */
-void print_exit_err(char *prmpt, char *num) {
+void print_exit_err(char *prmpt, char *num)
+{
 	if (!num)
 		return;
 
@@ -20,7 +21,8 @@ void print_exit_err(char *prmpt, char *num) {
  * @m: program memory in use
  * @vect: command being evaluated
  */
-void s_exit(cache *m, char **vect) {
+void s_exit(cache *m, char **vect)
+{
 	int i, status = 0;
 
 	if (!vect[1])
@@ -29,8 +31,10 @@ void s_exit(cache *m, char **vect) {
 		exit(0);
 	}
 
-	for (i = 0; vect[1][i]; i++) {
-		if (vect[1][i] < 48 || vect[1][i] > 57) {
+	for (i = 0; vect[1][i]; i++)
+	{
+		if (vect[1][i] < 48 || vect[1][i] > 57)
+		{
 			print_exit_err(m->prmpt, vect[1]);
 			return;
 		}

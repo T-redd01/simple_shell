@@ -17,7 +17,7 @@ void print_env(cache *m, __attribute__((unused)) char **vect)
  * @vect: command being evaluated
  * Return: 0 command found, 1 command not found
  */
-int _builtin(__attribute__((unused))cache *m, __attribute__((unused))char **vect)
+int _builtin(cache *m, char **vect)
 {
 	int i = 0;
 	builtin_t arr[] = {
@@ -32,7 +32,8 @@ int _builtin(__attribute__((unused))cache *m, __attribute__((unused))char **vect
 
 	while (arr[i].builtin_name)
 	{
-		if ((my_strcmp(arr[i].builtin_name, vect[0]))) {
+		if ((my_strcmp(arr[i].builtin_name, vect[0])))
+		{
 			arr[i].fp(m, vect);
 			return (0);
 		}

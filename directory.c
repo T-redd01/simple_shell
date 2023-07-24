@@ -7,23 +7,24 @@
  */
 char *_getCWD(size_t num)
 {
-    char *buf = NULL;
-
-    buf = malloc(num * sizeof(char));
-    if (!buf) {
-        perror("my_get: buf");
-        return (NULL);
-    }   
-
-    getcwd(buf, num);
-    if (errno == 34)
+	char *buf = NULL;
+	buf = malloc(num * sizeof(char));
+	
+	if (!buf)
 	{
-        errno = 0;
-        buf[0] = 'r';
-        free(buf);
-        return (_getCWD(num * 2));
-    }   
-    return (buf);
+		perror("my_get: buf");
+		return (NULL);
+	}
+
+	getcwd(buf, num);
+	if (errno == 34)
+	{
+		errno = 0;
+		buf[0] = 'r';
+		free(buf);
+		return (_getCWD(num * 2));
+	}
+	return (buf);
 }
 
 /**
@@ -107,7 +108,7 @@ int go_DEST(cache *m, char *curr_dir, char *dest)
  * @m: program memory in use
  * @vect: command being evaluated
  */
-void change_WD(__attribute__((unused)) cache *m, __attribute__((unused)) char **vect)
+void change_WD(cache *m, char **vect)
 {
 	char *curr_dir = NULL;
 

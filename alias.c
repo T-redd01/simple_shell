@@ -18,7 +18,7 @@ char *extract_al_key(char *pair)
 	if (pair[i] != '=')
 		return (NULL);
 
-	key = malloc((i + 1) *sizeof(char));
+	key = malloc((i + 1) * sizeof(char));
 	if (!key)
 	{
 		perror("Error: failed to allocate memory");
@@ -119,7 +119,7 @@ int print_replace_alias(al_list *h, __attribute__((unused))char *arg)
  * @m: memory that program is using
  * @vect: command being evaluated
  */
-void _alias(__attribute__((unused))cache *m, __attribute__((unused))char **vect)
+void _alias(cache *m, char **vect)
 {
 	int i;
 	char *key, *val;

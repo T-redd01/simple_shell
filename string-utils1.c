@@ -2,7 +2,7 @@
 
 /**
  * _strlen - get string length
- * @s: string to 
+ * @s: string to
  * Return: len of string
  */
 size_t _strlen(char *s)
@@ -23,7 +23,8 @@ size_t _strlen(char *s)
  * @src: string to copy
  * Return: 0 (Success), 1 (Failure)
  */
-int _strcpy(char *dest, char *src) {
+int _strcpy(char *dest, char *src)
+{
 	size_t i, len = 0;
 
 	if (src == NULL)
@@ -42,7 +43,8 @@ int _strcpy(char *dest, char *src) {
  * @src: string to concatenate
  * Return: dest, null
  */
-char *_strcat(char *dest, char *src) {
+char *_strcat(char *dest, char *src)
+{
 	size_t i, j;
 
 	if (!src || !dest)
@@ -68,7 +70,8 @@ char *_strcat(char *dest, char *src) {
  * @src: string to duplicate
  * Return: duplicated string
  */
-char *_strdup(char *src) {
+char *_strdup(char *src)
+{
 	size_t i, len = 0;
 	char *new = NULL;
 
@@ -79,7 +82,8 @@ char *_strdup(char *src) {
 		len++;
 
 	new = malloc((len + 1) * sizeof(char));
-	if (!new) {
+	if (!new)
+	{
 		perror("_strdup");
 		return (NULL);
 	}
@@ -99,7 +103,7 @@ char *_strdup(char *src) {
 int my_strcmp(char *s1, char *s2)
 {
 	size_t i;
-	
+
 	if (!s1 || !s2)
 		return (0);
 	
@@ -108,7 +112,7 @@ int my_strcmp(char *s1, char *s2)
 		if (s1[i] != s2[i])
 			return (0);
 	}
-	
+
 	if (s1[i] != s2[i])
 		return (0);
 	
