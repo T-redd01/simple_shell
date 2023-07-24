@@ -28,7 +28,8 @@ char *_itoa(size_t num)
 
 	i = len;
 	str[i--] = '\0';
-	while (num) {
+	while (num)
+	{
 		str[i] = '0' + (num % 10);
 		num /= 10;
 		i--;

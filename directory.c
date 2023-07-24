@@ -8,8 +8,8 @@
 char *_getCWD(size_t num)
 {
 	char *buf = NULL;
+
 	buf = malloc(num * sizeof(char));
-	
 	if (!buf)
 	{
 		perror("my_get: buf");
