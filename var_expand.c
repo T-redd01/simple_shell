@@ -86,6 +86,7 @@ size_t word_full_len(char **env, char *line, size_t idx, size_t pl, size_t el)
  * @es: errno str
  * @el: errno len
  * @l: len to alloc
+ * Return: new token, null
  */
 char *exp_word(char **env, char *line, size_t *i, char *ps, size_t pl,
 		char *es, size_t el, size_t l)

@@ -35,7 +35,7 @@ void free_matrix(char **matrix)
 }
 
 /**
- * run_prmpt: creates log of shell
+ * run_prmpt - creates log of shell
  * @runs: times repl loop ran
  * @name: program name
  * Return: pointer to log string, null
