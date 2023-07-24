@@ -1,5 +1,10 @@
 #include "shel.h"
 
+/**
+ * _strlen - get string length
+ * @s: string to 
+ * Return: len of string
+ */
 size_t _strlen(char *s)
 {
 	size_t len = 0;
@@ -12,7 +17,12 @@ size_t _strlen(char *s)
 	return (len);
 }
 
-
+/**
+ * _strcpy - copy string
+ * @dest: allocated buffer
+ * @src: string to copy
+ * Return: 0 (Success), 1 (Failure)
+ */
 int _strcpy(char *dest, char *src) {
 	size_t i, len = 0;
 
@@ -26,6 +36,12 @@ int _strcpy(char *dest, char *src) {
 	return (0);
 }
 
+/**
+ * _strcat - append to string
+ * @dest: buffer in use
+ * @src: string to concatenate
+ * Return: dest, null
+ */
 char *_strcat(char *dest, char *src) {
 	size_t i, j;
 
@@ -42,13 +58,16 @@ char *_strcat(char *dest, char *src) {
 		;
 
 	for (j = 0; src[j]; j++, i++)
-	{
 		dest[i] = src[j];
-	}
 	dest[i] = '\0';
 	return (dest);
 }
 
+/**
+ * _strdup - duplicate string
+ * @src: string to duplicate
+ * Return: duplicated string
+ */
 char *_strdup(char *src) {
 	size_t i, len = 0;
 	char *new = NULL;
@@ -71,18 +90,28 @@ char *_strdup(char *src) {
 	return (new);
 }
 
-int my_strcmp(char *s1, char *s2) {
-        size_t i;
-
-        if (!s1 || !s2)
-                return (0);
-
-        for (i = 0; s1[i] && s2[i]; i++) {
-                if (s1[i] != s2[i])
-                        return (0);
-        }
-        if (s1[i] != s2[i])
-                return (0);
-        return (1);
+/**
+ * my_strcmp - check if strings are equal
+ * @s1: string
+ * @s2: string
+ * Return: 1 (Matched), 0 (Not matched)
+ */
+int my_strcmp(char *s1, char *s2)
+{
+	size_t i;
+	
+	if (!s1 || !s2)
+		return (0);
+	
+	for (i = 0; s1[i] && s2[i]; i++)
+	{
+		if (s1[i] != s2[i])
+			return (0);
+	}
+	
+	if (s1[i] != s2[i])
+		return (0);
+	
+	return (1);
 }
 

@@ -1,5 +1,9 @@
 #include "shel.h"
 
+/**
+ * print_matrix - prints a matrix of strings
+ * @matrix: vector with strings
+ */
 void print_matrix(char **matrix)
 {
 	int i;
@@ -14,6 +18,10 @@ void print_matrix(char **matrix)
 	}
 }
 
+/**
+ * free_matrix - free a matrix of strings
+ * @matrix: vector with strings
+ */
 void free_matrix(char **matrix)
 {
 	int i;
@@ -26,6 +34,12 @@ void free_matrix(char **matrix)
 	free(matrix);
 }
 
+/**
+ * run_prmpt: creates log of shell
+ * @runs: times repl loop ran
+ * @name: program name
+ * Return: pointer to log string, null
+ */
 char *run_prmpt(size_t runs, char *name)
 {
 	char *prmpt = NULL, *num = _itoa(runs);

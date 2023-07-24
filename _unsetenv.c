@@ -1,5 +1,11 @@
 #include "shel.h"
 
+/**
+ * _unsetenv - unset env var
+ * @m: program memory in use
+ * @name: var name
+ * Return: 0 (Success), 1 (Failure)
+ */
 int _unsetenv(cache *m, char *name)
 {
 	int i, j, flag = 0;
@@ -39,6 +45,11 @@ int _unsetenv(cache *m, char *name)
 	return (0);
 }
 
+/**
+ * call_unsetenv: check for errs
+ * @m: program memory in use
+ * @vect: command being evaluated
+ */
 void call_unsetenv(cache *m, char **vect)
 {
 	int i = 0;
@@ -64,4 +75,5 @@ void call_unsetenv(cache *m, char **vect)
 
 	if ((_unsetenv(m, vect[1])))
 		errno = 1;
-}	
+}
+

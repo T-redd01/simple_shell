@@ -1,5 +1,11 @@
 #include "shel.h"
 
+/**
+ * is_delim - is character delimiter ?
+ * @line: input given
+ * @idx: current parser index
+ * Return: 1 is a delimeter, 0 not a delimeter
+ */
 int is_delim(char *line, size_t idx)
 {
     if (line[idx] == '\0')
@@ -20,6 +26,12 @@ int is_delim(char *line, size_t idx)
     return (0);
 }
 
+/**
+ * is_cmd_sep - is command delimeter ?
+ * @line: input passed
+ * @idx: index of parser
+ * Return: 1 is delimeter, 0 not delimeter
+ */
 int is_cmd_sep(char *line, size_t *idx)
 {
 	if (!line)
@@ -45,6 +57,11 @@ int is_cmd_sep(char *line, size_t *idx)
 	return (0);
 }
 
+/**
+ * substitute_alias - check if command is alias
+ * @h: alias list
+ * @node: token with command
+ */
 void substitute_alias(al_list *h, toks *node)
 {
 	if (!h)
@@ -62,6 +79,12 @@ void substitute_alias(al_list *h, toks *node)
 	}
 }
 
+/**
+ * create_cmd_vect - make vector of toks to evaluate
+ * @m: program memory currently in use
+ * @h: tokens
+ * @count: number of tokens
+ */
 void create_cmd_vect(cache *m, toks *h, size_t count)
 {
 	size_t i = 0;
@@ -95,7 +118,11 @@ void create_cmd_vect(cache *m, toks *h, size_t count)
 	free_matrix(vect);
 }
 
-
+/**
+ * parser - understand and evaluate input
+ * @m: program memory in use
+ * @line: input given
+ */
 void parser(cache *m, char *line)
 {
 	size_t i, args = 0;

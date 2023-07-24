@@ -1,5 +1,10 @@
 #include "shel.h"
 
+/**
+ * extract_al_key - extract key from key=val pair
+ * @pair: pointer to full key=val string
+ * Return: pointer to key
+ */
 char *extract_al_key(char *pair)
 {
 	size_t i = 0;
@@ -27,6 +32,11 @@ char *extract_al_key(char *pair)
 	return (key);
 }
 
+/**
+ * extract_al_val - extract value from key=val pair
+ * @pair: pointer to key=val string
+ * Return: pointer to val
+ */
 char *extract_al_val(char *pair)
 {
 	size_t i = 0;
@@ -56,6 +66,10 @@ char *extract_al_val(char *pair)
 	return (val);
 }
 
+/**
+ * print_al_node - print key='val' from alias node
+ * @node: struct with key and val
+ */
 void print_al_node(al_list *node)
 {
 	_puts(node->name, 1);
@@ -64,6 +78,12 @@ void print_al_node(al_list *node)
 	_puts("'\n", 1);
 }
 
+/**
+ * print_replace_alias - checks whether to print or replace node val
+ * @h: alias linked list
+ * @arg: string to compare
+ * Return: 0 (Success), 1 (Failure)
+ */
 int print_replace_alias(al_list *h, __attribute__((unused))char *arg)
 {
 	size_t i;
@@ -94,7 +114,11 @@ int print_replace_alias(al_list *h, __attribute__((unused))char *arg)
 	return (1);
 }
 
-
+/**
+ * _alias - builtin command alias
+ * @m: memory that program is using
+ * @vect: command being evaluated
+ */
 void _alias(__attribute__((unused))cache *m, __attribute__((unused))char **vect)
 {
 	int i;

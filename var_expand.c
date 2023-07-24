@@ -1,5 +1,12 @@
 #include "shel.h"
 
+/**
+ * get_env_val - get val of env var
+ * @env: all env vars
+ * @line: input
+ * @idx: index of line
+ * Return: val of env var, null
+ */
 char *get_env_val(char **env, char *line, size_t *idx)
 {
 	size_t pos, len = 0;
@@ -31,6 +38,15 @@ char *get_env_val(char **env, char *line, size_t *idx)
 	return (val);
 }
 
+/**
+ * word_full_len - len of token
+ * @env: all env vars
+ * @line: input
+ * @idx: index of input
+ * @pl: proc id len
+ * @el: errno len
+ * Return: len of tok to alloc, 0
+ */
 size_t word_full_len(char **env, char *line, size_t idx, size_t pl, size_t el)
 {
 	size_t len = 0;
@@ -59,7 +75,19 @@ size_t word_full_len(char **env, char *line, size_t idx, size_t pl, size_t el)
 	return (len);
 }
 
-char *exp_word(char **env, char *line, size_t *i, char * ps, size_t pl, char *es, size_t el, size_t l)
+/**
+ * exp_word - create token
+ * @env: all env vars
+ * @line: input
+ * @i: index of line
+ * @ps: proc id string
+ * @pl: proc id len
+ * @es: errno str
+ * @el: errno len
+ * @l: len to alloc
+ */
+char *exp_word(char **env, char *line, size_t *i, char * ps, size_t pl,
+		char *es, size_t el, size_t l)
 {
 	size_t j = 0;
 	char *token = NULL, *env_val;
@@ -96,7 +124,6 @@ char *exp_word(char **env, char *line, size_t *i, char * ps, size_t pl, char *es
 		}
 		else
 			token[j++] = line[*i];
-
 		if (line[*i] == '\0')
 			*i -= 1;
 	}
@@ -104,6 +131,13 @@ char *exp_word(char **env, char *line, size_t *i, char * ps, size_t pl, char *es
 	return (token);
 }
 
+/**
+ * extract_word - make token
+ * @env: all env vars
+ * @line: input
+ * @idx: index of input
+ * Return: new token, null
+ */
 char *extract_word(char **env, char *line, size_t *idx)
 {
 	size_t len, pl, el;

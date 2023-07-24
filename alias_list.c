@@ -1,5 +1,9 @@
 #include "shel.h"
 
+/**
+ * print_al_list - print all nodes
+ * @h: alias linked list
+ */
 void print_al_list(al_list *h)
 {
 	while (h)
@@ -12,6 +16,10 @@ void print_al_list(al_list *h)
 	}
 }
 
+/**
+ * free_alias_list - free all nodes
+ * @h: alias linked list
+ */
 void free_alias_list(al_list *h)
 {
 	al_list *curr, *next;
@@ -27,6 +35,12 @@ void free_alias_list(al_list *h)
 	}
 }
 
+/**
+ * create_alias_node - creates a new alias node
+ * @key: name of alias
+ * @val: value of alias
+ * Return: new node, null on fail
+ */
 al_list *create_alias_node(char *key, char *val)
 {
 	al_list *new = NULL;
@@ -50,6 +64,11 @@ al_list *create_alias_node(char *key, char *val)
 	return (new);
 }
 
+/**
+ * prepend_al_node - add node to top of list
+ * @h: address to pointer of start of list
+ * @node: node to add
+ */
 void prepend_al_node(al_list **h, al_list *node)
 {
 	if (!node)

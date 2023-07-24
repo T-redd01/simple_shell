@@ -1,5 +1,11 @@
 #include "shel.h"
 
+/**
+ * new_env_var - create new env var
+ * @key: env var key
+ * @val: env var val
+ * Return: pointer to new env var
+ */
 char *new_env_var(char *key, char *val)
 {
 	int i, j = 0;
@@ -22,6 +28,13 @@ char *new_env_var(char *key, char *val)
 	return (var);
 }
 
+/**
+ * _setenv - sets or replaces env var
+ * @m: program memory in use
+ * @name: name of env var
+ * @value: value of var
+ * Return: 0 (Success), 1 (Failure)
+ */
 int _setenv(cache *m, char *name, char *value)
 {
 	int i;
@@ -58,6 +71,11 @@ int _setenv(cache *m, char *name, char *value)
 	return (0);
 }
 
+/**
+ * call_setenv - check command vect
+ * @m: program memory in use
+ * @vect: command being evaluated
+ */
 void call_setenv(cache *m, char **vect)
 {
 	int i = 0;

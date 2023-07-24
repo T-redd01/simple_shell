@@ -1,5 +1,10 @@
 #include "shel.h"
 
+/**
+ * print_exit_err - prints err for illegal num
+ * @prmpt: shell log
+ * @num: arg passed as exit status
+ */
 void print_exit_err(char *prmpt, char *num) {
 	if (!num)
 		return;
@@ -10,6 +15,11 @@ void print_exit_err(char *prmpt, char *num) {
 	_puts("\n", 2);
 }
 
+/**
+ * s_exit - exit builtin
+ * @m: program memory in use
+ * @vect: command being evaluated
+ */
 void s_exit(cache *m, char **vect) {
 	int i, status = 0;
 

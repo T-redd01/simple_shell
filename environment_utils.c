@@ -1,5 +1,9 @@
 #include "shel.h"
 
+/**
+ * init_env - creates copy of environ on the heap
+ * Return: copy of environ
+ */
 char **init_env(void)
 {
 	int i = 0;
@@ -23,6 +27,12 @@ char **init_env(void)
 	return (copy);
 }
 
+/**
+ * _getenv - gets value of env var
+ * @env: vect of env vars to search
+ * @name: env var name
+ * Return: pointer to beginning of val (not new string), null
+ */
 char *_getenv(char **env, char *name)
 {
 	int i;

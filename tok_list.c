@@ -1,5 +1,10 @@
 #include "shel.h"
 
+/**
+ * create_tok_node - create token
+ * @word: token
+ * Return: new token node, null
+ */
 toks *create_tok_node(char *word)
 {
 	toks *new = NULL;
@@ -16,7 +21,11 @@ toks *create_tok_node(char *word)
 	return (new);
 }
 
-
+/**
+ * append_tok_node - append node
+ * @h: list
+ * @node: node to append
+ */
 void append_tok_node(toks **h, toks *node)
 {
 	toks *tmp = *h;
@@ -35,6 +44,11 @@ void append_tok_node(toks **h, toks *node)
 	tmp->n = node;
 }
 
+/**
+ * print_toks_list - print tokens list
+ * @h: start of list
+ * Return: nodes, 0
+ */
 int print_toks_list(toks *h)
 {
 	int nodes = 0;
@@ -55,6 +69,10 @@ int print_toks_list(toks *h)
 	return (nodes);
 }
 
+/**
+ * free_toks_list - free all nodes
+ * @h: start of list
+ */
 void free_toks_list(toks **h)
 {
 	toks *tmp = NULL;

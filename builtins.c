@@ -1,11 +1,22 @@
 #include "shel.h"
 
+/**
+ * print_env - prints all environment vars
+ * @m: program memory in use
+ * @vect: command being evaluated
+ */
 void print_env(cache *m, __attribute__((unused)) char **vect)
 {
 	errno = 0;
 	print_matrix(m->env);
 }
 
+/**
+ * _builtin - finds builtin cmd to run
+ * @m: program memory in use
+ * @vect: command being evaluated
+ * Return: 0 command found, 1 command not found
+ */
 int _builtin(__attribute__((unused))cache *m, __attribute__((unused))char **vect)
 {
 	int i = 0;

@@ -1,5 +1,10 @@
 #include "shel.h"
 
+/**
+ * _getCWD - recursively gets current directory path
+ * @num: first size to allocate to buffer
+ * Return: current directory path, NULL on fail
+ */
 char *_getCWD(size_t num)
 {
     char *buf = NULL;
@@ -21,6 +26,12 @@ char *_getCWD(size_t num)
     return (buf);
 }
 
+/**
+ * go_HOME - change to home directory
+ * @m: program memory in use
+ * @curr_dir: current working directory
+ * Return: 0 (Success), 1 (Failure)
+ */
 int go_HOME(cache *m, char *curr_dir)
 {
 	char *home = _getenv(m->env, "HOME");
@@ -39,6 +50,12 @@ int go_HOME(cache *m, char *curr_dir)
 	return (0);
 }
 
+/**
+ * go_PREV - change to previous directory $OLDPWD
+ * @m: program memory in use
+ * @curr_dir: current working directory
+ * Return: 0 (Succes), 1 (Failure)
+ */
 int go_PREV(cache *m, char *curr_dir)
 {
 	char *prev = _getenv(m->env, "OLDPWD");
@@ -63,6 +80,13 @@ int go_PREV(cache *m, char *curr_dir)
 	return (0);
 }
 
+/**
+ * go_DEST - change to given directory arg
+ * @m: program memory in use
+ * @curr_dir: current working directory
+ * @dest: directory to change to
+ * Return: 0 (Success), 1 (Failure)
+ */
 int go_DEST(cache *m, char *curr_dir, char *dest)
 {
 	if ((chdir(dest)) == -1)
@@ -78,6 +102,11 @@ int go_DEST(cache *m, char *curr_dir, char *dest)
 	return (0);
 }
 
+/**
+ * change_WD - change directory (cd) builtin command
+ * @m: program memory in use
+ * @vect: command being evaluated
+ */
 void change_WD(__attribute__((unused)) cache *m, __attribute__((unused)) char **vect)
 {
 	char *curr_dir = NULL;
@@ -105,3 +134,4 @@ void change_WD(__attribute__((unused)) cache *m, __attribute__((unused)) char **
 	}
 	free(curr_dir);
 }
+

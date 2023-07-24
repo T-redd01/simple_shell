@@ -1,5 +1,11 @@
 #include "shel.h"
 
+/**
+ * main - Entry point
+ * @ac: num of CLI arg
+ * @av: CLI args vector
+ * Return: 0 (Success), 1 (Failure)
+ */
 int main(__attribute__((unused))int ac, __attribute__((unused))char **av) {
 	cache m = {NULL, NULL, NULL, NULL};
 

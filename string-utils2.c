@@ -1,5 +1,10 @@
 #include "shel.h"
 
+/**
+ * _itoa - integer to alphanumeric
+ * @num: integer
+ * Return: string of num, null
+ */
 char *_itoa(size_t num) {
 	size_t i, len = 0, tmp = num;
 	char *str = NULL;
@@ -28,6 +33,12 @@ char *_itoa(size_t num) {
 	return (str);
 }
 
+/**
+ * key_cmp - compare key to name
+ * @set_key: str with '='
+ * @name: string
+ * Return: 1 (matched), 0 (not matched)
+ */
 int key_cmp(char *set_key, char *name)
 {
 	int i;
