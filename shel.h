@@ -137,6 +137,7 @@ int key_cmp(char *set_key, char *name);
 void print_matrix(char **matrix);
 void free_matrix(char **matrix);
 char *run_prmpt(size_t runs, char *name);
+void cmd_chaining(char *line, size_t *idx);
 
 #endif
 

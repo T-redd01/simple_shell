@@ -148,6 +148,7 @@ void parser(cache *m, char *line)
 		{
 			create_cmd_vect(m, h, args);
 			/* if ran: should i chain next command */
+			cmd_chaining(line, &i);
 			h = NULL;
 			args = 0;
 		}
