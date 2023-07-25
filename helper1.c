@@ -84,8 +84,8 @@ void cmd_chaining(char *line, size_t *idx)
 		}
 		return;
 	}
-	
-	if ( errno == 0 && line[*idx] == '|')
+
+	if (errno == 0 && line[*idx] == '|')
 	{
 		while (line[*idx] && line[*idx] != '#')
 		{
