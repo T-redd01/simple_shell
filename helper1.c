@@ -66,7 +66,6 @@ char *run_prmpt(size_t runs, char *name)
  * cmd_chaining - at what point should parser start
  * @line: input
  * @idx: index of input
- * Return: index of where to start, 0
  */
 void cmd_chaining(char *line, size_t *idx)
 {
