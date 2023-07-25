@@ -46,7 +46,7 @@ int _unsetenv(cache *m, char *name)
 }
 
 /**
- * call_unsetenv - check for errs
+ * call_unsetenv - checks for errs and sets errno before calling unsetenv
  * @m: program memory in use
  * @vect: command being evaluated
  */
