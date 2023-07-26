@@ -31,12 +31,12 @@ typedef struct token_list
 } toks;
 
 /**
- * struct aliast_list - holds list of aliases
+ * struct alias_list - holds memory to be passed between funcs
  * @name: alias name
  * @val: alias value
- * @n_al: next alias node
+ * @n_al: alias list in use
  *
- * Description: alias linked list structure for aliasing
+ * Description: holds memory and variables that funcs and program uses
  */
 typedef struct alias_list
 {
