@@ -36,7 +36,7 @@ typedef struct token_list
  * @val: alias value
  * @n_al: next alias node
  *
- * Description: singly linked list node structure
+ * Description: alias linked list structure for aliasing
  */
 typedef struct alias_list
 {
