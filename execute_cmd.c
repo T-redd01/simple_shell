@@ -12,6 +12,8 @@ void free_proc_mem(cache *m, char **vect)
 	free(m->inp);
 	free_alias_list(m->als);
 	free_matrix(vect);
+	if (m->fbuff)
+		free(m->fbuff);
 }
 
 /**

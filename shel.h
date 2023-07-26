@@ -51,6 +51,7 @@ typedef struct alias_list
  * @inp: input from user
  * @prmpt: shell log with name
  * @als: alias list in use
+ * @fbuff: all chars in file
  *
  * Description: holds memory and variables that funcs and program uses
  */
@@ -60,6 +61,7 @@ typedef struct shell_cache
 	char *inp;
 	char *prmpt;
 	al_list *als;
+	char *fbuff;
 } cache;
 
 /**

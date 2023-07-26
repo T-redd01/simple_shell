@@ -19,6 +19,8 @@ echo $$ $? $PWD
 echo $OLDPWD $PWD $HOME $USER
 echo
 
+exit
+
 echo chaining:
 echo | chain success ->
 ls || ls|| ls ||ls||ls
