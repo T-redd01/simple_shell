@@ -71,6 +71,9 @@ void find_bin(cache *m, char **vect);
 void exec_cmd(cache *m, char *bin_name, char **vect);
 void free_proc_mem(cache *m, char **vect);
 
+/* files.c */
+void file_as_arg(int fd, cache *m, char *fname);
+
 /* tok_list.c */
 toks *create_tok_node(char *word);
 void append_tok_node(toks **h, toks *node);

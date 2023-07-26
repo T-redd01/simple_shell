@@ -36,7 +36,7 @@ int is_cmd_sep(char *line, size_t *idx)
 	if (!line)
 		return (0);
 
-	if (line[*idx] == '\0' || line[*idx] == '#')
+	if (line[*idx] == '\0' || line[*idx] == '#' || line[*idx] == '\n')
 		return (1);
 	if (line[*idx + 1] == '\0')
 		return (1);

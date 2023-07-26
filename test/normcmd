@@ -1,0 +1,45 @@
+echo hello
+echo this is the beginning of test...
+echo
+
+echo noraml command:
+ls
+ls -a
+ls -la
+cat main.c
+echo
+
+echo expanding vars:
+echo $$
+echo $?
+echo $PATH
+
+echo $$ $? $PWD
+
+echo $OLDPWD $PWD $HOME $USER
+echo
+
+echo chaining:
+echo | chain success ->
+ls || ls|| ls ||ls||ls
+
+echo | chain fail ->
+ls k || ls g|| ls j ||ls h||ls j
+
+echo & chain success ->
+ls && ls&& ls &&ls&&ls
+
+echo & chain fail ->
+ls k && ls&& ls &&ls&&ls
+
+echo comma chain ->
+ls ; ls; ls ;ls;
+echo
+
+echo mixed chaining:
+echo &3 and |1 ->
+ls && ls && ls && ls || ls
+
+echo |3 and &1 ->
+ls || ls || ls || ls && ls
+

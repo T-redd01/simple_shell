@@ -1,0 +1,28 @@
+echo chaining:
+echo | chain success ->
+ls || ls|| ls ||ls||ls
+echo
+
+echo | chain fail ->
+ls k || ls g|| ls j ||ls h||ls j
+echo
+
+echo & chain success ->
+ls && ls&& ls &&ls&&ls
+echo
+
+echo & chain fail ->
+ls k && ls&& ls &&ls&&ls
+echo
+
+echo comma chain ->
+ls ; ls; ls ;ls;
+echo
+
+echo mixed chaining:
+echo &3 and |1 ->
+ls && ls && ls && ls || ls
+
+echo |3 and &1 ->
+ls || ls || ls || ls && ls
+
