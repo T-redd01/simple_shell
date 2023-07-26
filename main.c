@@ -8,8 +8,8 @@
  */
 int main(int ac, __attribute__((unused))char **av)
 {
-	int fd;
-	char *log = NULL;
+	/*int fd;
+	char *log = NULL;*/
 	cache m = {NULL, NULL, NULL, NULL};
 
 	if (ac > 2)
