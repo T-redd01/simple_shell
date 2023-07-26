@@ -17,18 +17,42 @@
 
 extern char **environ;
 
+/**
+ * struct token_list - list of tokens before delims
+ * @token: extracted token without delims
+ * @n: next node in list
+ *
+ * Description: holds tokens that need to be turned into cmd vect
+ */
 typedef struct token_list
 {
 	char *token;
 	struct token_list *n;
 } toks;
 
+/**
+ * struct aliast_list - holds list of aliases
+ * @name: alias name
+ * @val: alias value
+ * @n_al: next alias node
+ *
+ * Description: stores all aliases
+ */
 typedef struct alias_list {
 	char *name;
 	char *val;
 	struct alias_list *n_al;
 } al_list;
 
+/**
+ * struct shell_cache - holds memory to be passed between funcs
+ * @env: vect of environment vars on heap
+ * @inp: input from user
+ * @prmpt: shell log with name 
+ * @als: alias list in use
+ *
+ * Description: holds memory and variables that funcs and program uses
+ */
 typedef struct shell_cache
 {
 	char **env;
@@ -37,6 +61,13 @@ typedef struct shell_cache
 	al_list *als;
 } cache;
 
+/**
+ * struct builtins - to hold builtin funcs
+ * @builtin_name: name of func / cmd
+ * @fp: function pointer to builtin function
+ *
+ * Description: used to find and call builtin function
+ */
 typedef struct builtins_s
 {
 	char *builtin_name;
