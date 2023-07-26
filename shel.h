@@ -63,11 +63,11 @@ typedef struct shell_cache
 } cache;
 
 /**
- * struct builtins - to hold builtin funcs
- * @builtin_name: name of func / cmd
- * @fp: function pointer to builtin function
+ * struct builtins_s - builtin functions
+ * @builtin_name: name of builtin command
+ * @fp: function pointer
  *
- * Description: used to find and call builtin function
+ * Description: all builtin commands for shell
  */
 typedef struct builtins_s
 {
