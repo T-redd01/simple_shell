@@ -36,7 +36,7 @@ typedef struct token_list
  * @val: alias value
  * @n_al: next alias node
  *
- * Description: singly linked list node structure 
+ * Description: singly linked list node structure
  */
 typedef struct alias_list
 {
@@ -113,7 +113,7 @@ void append_tok_node(toks **h, toks *node);
 int print_toks_list(toks *h);
 void free_toks_list(toks **h);
 
-/************************************* BUILTINS *******************************/
+/************************************* BUILTINS *****************************/
 /* alias.c */
 void _alias(cache *m, char **vect);
 int print_replace_alias(al_list *h, char *arg);
@@ -143,7 +143,7 @@ int _unsetenv(cache *m, char *name);
 char *getCWD(size_t num);
 void change_WD(cache *m, char **vect);
 
-/************************************* UTILITIES ******************************/
+/************************************* UTILITIES ****************************/
 /* shell_environment.c */
 char **init_env(void);
 char *_getenv(char **env, char *name);
