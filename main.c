@@ -18,7 +18,7 @@ int main(int ac, __attribute__((unused))char **av)
 		return (EXIT_FAILURE);
 	}
 
-	if (ac == 2)
+	/*if (ac == 2)
 	{
 		fd = open(av[1], O_RDONLY);
 		if (fd == -1)
@@ -36,7 +36,7 @@ int main(int ac, __attribute__((unused))char **av)
 			free_matrix(m.env);
 			return (EXIT_SUCCESS);
 		}
-	}
+	}*/
 
 	m.env = init_env();
 	repl_loop(&m, av[0]);
