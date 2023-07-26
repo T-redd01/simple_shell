@@ -36,9 +36,10 @@ typedef struct token_list
  * @val: alias value
  * @n_al: next alias node
  *
- * Description: stores all aliases
+ * Description: singly linked list node structure 
  */
-typedef struct alias_list {
+typedef struct alias_list
+{
 	char *name;
 	char *val;
 	struct alias_list *n_al;
@@ -48,7 +49,7 @@ typedef struct alias_list {
  * struct shell_cache - holds memory to be passed between funcs
  * @env: vect of environment vars on heap
  * @inp: input from user
- * @prmpt: shell log with name 
+ * @prmpt: shell log with name
  * @als: alias list in use
  *
  * Description: holds memory and variables that funcs and program uses
@@ -71,10 +72,10 @@ typedef struct shell_cache
 typedef struct builtins_s
 {
 	char *builtin_name;
-	void (*fp) (cache *m, char **vect);
+	void (*fp)(cache *m, char **vect);
 } builtin_t;
 
-/****************************************** CORE ******************************************/
+/****************************************** CORE *****************************/
 /* repl_loop.c */
 void repl_loop(cache *m, char *name);
 ssize_t read_inp(char **input);
@@ -88,7 +89,8 @@ int is_delim(char *line, size_t idx);
 /* var_expand.c */
 char *get_env_val(char **env, char *line, size_t *idx);
 size_t word_full_len(char **env, char *line, size_t idx, size_t pl, size_t el);
-char *exp_word(char **env, char *line, size_t *i, char * ps, size_t pl, char *es, size_t el, size_t l);
+char *exp_word(char **env, char *line, size_t *i, char *ps,
+		size_t pl, char *es, size_t el, size_t l);
 char *extract_word(char **env, char *line, size_t *idx);
 
 /* builtins.c */
@@ -111,7 +113,7 @@ void append_tok_node(toks **h, toks *node);
 int print_toks_list(toks *h);
 void free_toks_list(toks **h);
 
-/************************************* BUILTINS ***************************************/
+/************************************* BUILTINS *******************************/
 /* alias.c */
 void _alias(cache *m, char **vect);
 int print_replace_alias(al_list *h, char *arg);
@@ -141,7 +143,7 @@ int _unsetenv(cache *m, char *name);
 char *getCWD(size_t num);
 void change_WD(cache *m, char **vect);
 
-/************************************* UTILITIES ***************************************/
+/************************************* UTILITIES ******************************/
 /* shell_environment.c */
 char **init_env(void);
 char *_getenv(char **env, char *name);
