@@ -40,6 +40,12 @@ void s_exit(cache *m, char **vect)
 		}
 		status = (status * 10) + (vect[1][i] - 48);
 	}
+
+	if (status > 999999999)
+	{
+		print_exit_err(m->prmpt, vect[1]);
+		return;
+	}
 	free_proc_mem(m, vect);
 	exit(status);
 }
